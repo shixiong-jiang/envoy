@@ -55,6 +55,7 @@
 #include "source/common/version/version.h"
 #include "source/server/configuration_impl.h"
 #include "source/server/listener_hooks.h"
+#include "source/common/protobuf/utility.h"
 #include "source/server/listener_manager_factory.h"
 #include "source/server/regex_engine.h"
 #include "source/server/utils.h"
@@ -412,7 +413,7 @@ void InstanceBase::initialize(Network::Address::InstanceConstSharedPtr local_add
       const EnvoyException& e,
       {
         ENVOY_LOG(critical, "error initializing config '{} {} {}': {}",
-                  options_.configProto().DebugString(), options_.configYaml(),
+                  MessageUtil::redact(options_.configProto().DebugString()), options_.configYaml(),
                   options_.configPath(), e.what());
         terminate();
         throw;
